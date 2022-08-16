@@ -8,9 +8,10 @@ You need :
 
 - Linux with :
   
-  - Python 3
+  - Python 3 (`sudo apt install python3`)
   
-  - Library `gi`, `toml`, `os`, `subprocess`
+  - Library `gi`, `toml` (use of `os`, `subprocess` but installed by default)
+    (` sudo apt install python3-gi python3-toml `)
 
 - 2 files :
   
