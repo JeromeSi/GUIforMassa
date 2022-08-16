@@ -1,6 +1,8 @@
 # GUIforMassa
 
-First try to make a GUI for a Massa node in Python.
+First try to make a GUI for a [Massa](massa.net) node in Python.
+
+v0.0.1 work !
 
 You need :
 
@@ -19,6 +21,12 @@ You need :
 - Execute file `GUIforMassa.py`
 
 Notes :
+
+v0.0.2. :
+
+- automatically update values of the node
+
+- 
 
 v0.0.1. :
 
