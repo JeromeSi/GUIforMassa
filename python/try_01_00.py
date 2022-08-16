@@ -3,7 +3,7 @@
 #
 #  try_00.py
 #
-#  Copyright 2022 Jerome Signouret <jerome.signouret@ac-bordeaux.fr>
+#  Copyright 2022 Jerome Signouret <jerome.signouret le a entouré laposte.net>
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -43,10 +43,10 @@ class App:
         self.window.show_all()
 
     def whereIsNode(self):
-        self.nodeUser="jerome"
-        self.nodeName="nextcloud"
-        self.nodeFolder="/home/jerome/massa/"
-        self.passWord="massaggcom"
+        self.nodeUser=""
+        self.nodeName=""
+        self.nodeFolder=""
+        self.passWord=""
         self.commandBegin="ssh "+self.nodeUser+"@"+self.nodeName+" \"cd "+self.nodeFolder+"massa-client;./massa-client -p "+self.passWord+" "
         cmd=self.commandBegin+"wallet_info\""
         final = subprocess.run(cmd,capture_output=True,shell=True)

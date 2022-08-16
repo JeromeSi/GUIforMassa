@@ -3,7 +3,7 @@
 #
 #  try_01.py
 #
-#  Copyright 2022 Jerome Signouret <jerome.signouret@ac-bordeaux.fr>
+#  Copyright 2022 Jerome Signouret <jerome.signouret le a entouré laposte.net>
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by

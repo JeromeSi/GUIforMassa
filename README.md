@@ -2,6 +2,22 @@
 
 First try to make a GUI for a Massa node in Python.
 
+You need :
+
+- Linux with :
+  
+  - Python 3
+  
+  - Library `gi`, `toml`, `os`, `subprocess`
+
+- 2 files :
+  
+  - `GUIforMassa.py`
+  
+  - `GUIforMassa.glade`
+
+- Execute file `GUIforMassa.py`
+
 Notes :
 
 v0.0.1. :
@@ -16,7 +32,7 @@ v0.0.1. :
   
   - In line / Off line
   
-  - Cycles with produced and failed blocks current and 3 previous like `get_status`
+  - Cycles with produced and failed blocks current and 4 previous like `get_status`
   
   - 2 buttons Buy rolls / Sell rolls
   
@@ -26,4 +42,4 @@ v0.0.1. :
   
   - Buying / selling rolls
   
-  - Interact with the node over SSH in LAN
+  - Interact with the node over SSH in LAN or local
