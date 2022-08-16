@@ -121,9 +121,6 @@ class App:
         self.builder.get_object('Label_Connexions_IN_Value').set_text(getStatus.split("\\n")[38].split(": ")[1])
         self.builder.get_object('Label_Connexions_OUT_value').set_text(getStatus.split("\\n")[39].split(": ")[1])
 
-    def on_window_main_destroy(self,fenetre):
-        print("Quitter")
-        # ~ Gtk.main_quit
 
 if __name__ == "__main__":
   main = App() # create an instance of our class

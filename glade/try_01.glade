@@ -28,10 +28,150 @@ Author: Jérôme Signouret
   <!-- interface-description A GUI to help to manage e Massa node -->
   <!-- interface-copyright GNU General Public License v3.0 -->
   <!-- interface-authors J\303\251r\303\264me Signouret -->
+  <object class="GtkAdjustment" id="Adjustement_SpinButton_NumberofRolls">
+    <property name="upper">100</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="Adjustement_SpinButton_fees">
+    <property name="upper">1</property>
+    <property name="step-increment">0.10</property>
+    <property name="page-increment">0.20</property>
+  </object>
+  <object class="GtkDialog" id="DialogBox_HowMany">
+    <property name="can-focus">False</property>
+    <property name="title" translatable="yes">Choose the number of rolls</property>
+    <property name="destroy-with-parent">True</property>
+    <property name="type-hint">dialog</property>
+    <child internal-child="vbox">
+      <object class="GtkBox">
+        <property name="can-focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox">
+            <property name="can-focus">False</property>
+            <property name="layout-style">end</property>
+            <child>
+              <object class="GtkButton" id="Button_HowMany_OK">
+                <property name="label" translatable="yes">OK</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="Button_HowMany_Cancel">
+                <property name="label" translatable="yes">Cancel</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <signal name="clicked" handler="destroyDialogBox_HowMany" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox" id="Box_HowMany">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <child>
+              <object class="GtkLabel" id="Label_HowMany">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Number of rolls</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="SpinButton_NumberofRolls">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="activates-default">True</property>
+                <property name="overwrite-mode">True</property>
+                <property name="progress-fraction">0.01</property>
+                <property name="progress-pulse-step">1</property>
+                <property name="input-purpose">number</property>
+                <property name="adjustment">Adjustement_SpinButton_NumberofRolls</property>
+                <property name="numeric">True</property>
+                <property name="update-policy">if-valid</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <child>
+              <object class="GtkLabel" id="Label_fees">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">No fees actually	</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="SpinButton_fees">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="overwrite-mode">True</property>
+                <property name="input-purpose">number</property>
+                <property name="adjustment">Adjustement_SpinButton_fees</property>
+                <property name="numeric">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">3</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
   <object class="GtkWindow" id="window_main">
     <property name="can-focus">False</property>
     <property name="title" translatable="yes">GUI for Massa</property>
-    <signal name="destroy" handler="on_window_main_destroy" swapped="no"/>
     <child>
       <object class="GtkNotebook">
         <property name="visible">True</property>
@@ -646,6 +786,7 @@ Author: Jérôme Signouret
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
+                    <signal name="clicked" handler="buyRollsChoose" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -659,6 +800,7 @@ Author: Jérôme Signouret
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
+                    <signal name="clicked" handler="sellRollsChoose" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
