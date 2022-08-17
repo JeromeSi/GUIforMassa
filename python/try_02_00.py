@@ -113,24 +113,20 @@ class App:
     def sellRolls(self,widget):
         numberOfRolls = self.builder.get_object('SpinButton_NumberofRolls').get_value_as_int()
         numberOfFees = self.builder.get_object('SpinButton_fees').get_value_as_int()
-        print(numberOfRolls," / ",numberOfFees)
         if self.builder.get_object('Radio_Local').get_active() == True:
             cmd = self.commandBegin+"sell_rolls "+self.address+" "+str(numberOfRolls)+" "+str(numberOfFees)
         else:
             cmd = self.commandBegin+"sell_rolls "+self.address+" "+str(numberOfRolls)+" "+str(numberOfFees)+"\""
         final = subprocess.run(cmd,capture_output=True,shell=True)
-        print(final)
 
     def buyRolls(self,widget):
         numberOfRolls = self.builder.get_object('SpinButton_NumberofRolls').get_value_as_int()
         numberOfFees = self.builder.get_object('SpinButton_fees').get_value_as_int()
-        print(numberOfRolls," / ",numberOfFees)
         if self.builder.get_object('Radio_Local').get_active() == True:
             cmd = self.commandBegin+"buy_rolls "+self.address+" "+str(numberOfRolls)+" "+str(numberOfFees)
         else:
             cmd = self.commandBegin+"buy_rolls "+self.address+" "+str(numberOfRolls)+" "+str(numberOfFees)+"\""
         final = subprocess.run(cmd,capture_output=True,shell=True)
-        print(final)
 
     def saveParameters(self,widget):
         parametersDictionnary = {}
