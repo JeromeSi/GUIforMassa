@@ -56,26 +56,35 @@ class App:
             if self.parametersDictionnary['host'] == 'Local':
                 self.builder.get_object('Radio_Local').set_active(True)
                 self.commandBegin="cd "+self.nodeFolder+"massa-client;./massa-client -p "+self.nodePassword+" "
+                self.commandWalletInfo=self.commandBegin+"wallet_info"
+                self.commandGetStatus=self.commandBegin+"get_status"
+                final = subprocess.run(self.commandWalletInfo,capture_output=True,shell=True)
+                info = str(final.stdout)[2:-1]
+                self.address=info.split("\\n")[3].split(": ")[1]
+                self.commandGetAddresses=self.commandBegin+" get_addresses "+self.address
             else:
                 self.builder.get_object('Radio_Remote').set_active(True)
                 self.commandBegin="ssh "+self.nodeUser+"@"+self.nodeName+" \"cd "+self.nodeFolder+"massa-client;./massa-client -p "+self.nodePassword+" "
-            cmd=self.commandBegin+"wallet_info\""
-            final = subprocess.run(cmd,capture_output=True,shell=True)
-            info = str(final.stdout)[2:-1]
-            self.address=info.split("\\n")[3].split(": ")[1]
+                self.commandWalletInfo=self.commandBegin+"wallet_info\""
+                self.commandGetStatus=self.commandBegin+"get_status\""
+                final = subprocess.run(self.commandWalletInfo,capture_output=True,shell=True)
+                # ~ print("là")
+                # ~ print(self.commandWalletInfo)
+                # ~ print(final)
+                info = str(final.stdout)[2:-1]
+                self.address=info.split("\\n")[3].split(": ")[1]
+                self.commandGetAddresses=self.commandBegin+" get_addresses "+self.address+"\""
         else:
             self.parametersDictionnary = {}
 
     def values(self):
         if self.parametersDictionnary != {}:
-            cmd = self.commandBegin+"get_addresses "+self.address+"\""
-            final = subprocess.run(cmd,capture_output=True,shell=True)
+            final = subprocess.run(self.commandGetAddresses,capture_output=True,shell=True)
             info = str(final.stdout)[2:-1]
             self.balanceValues(info)
             self.rollsValues(info)
             self.cyclesValues(info)
-            cmd = self.commandBegin+"get_status "+self.address+"\""
-            final = subprocess.run(cmd,capture_output=True,shell=True)
+            final = subprocess.run(self.commandGetStatus,capture_output=True,shell=True)
             info = str(final.stdout)[2:-1]
             self.connexionValues(info)
 
@@ -105,7 +114,10 @@ class App:
         numberOfRolls = self.builder.get_object('SpinButton_NumberofRolls').get_value_as_int()
         numberOfFees = self.builder.get_object('SpinButton_fees').get_value_as_int()
         print(numberOfRolls," / ",numberOfFees)
-        cmd = self.commandBegin+"sell_rolls "+self.address+" "+str(numberOfRolls)+" "+str(numberOfFees)+"\""
+        if self.builder.get_object('Radio_Local').get_active() == True:
+            cmd = self.commandBegin+"sell_rolls "+self.address+" "+str(numberOfRolls)+" "+str(numberOfFees)
+        else:
+            cmd = self.commandBegin+"sell_rolls "+self.address+" "+str(numberOfRolls)+" "+str(numberOfFees)+"\""
         final = subprocess.run(cmd,capture_output=True,shell=True)
         print(final)
 
@@ -113,7 +125,10 @@ class App:
         numberOfRolls = self.builder.get_object('SpinButton_NumberofRolls').get_value_as_int()
         numberOfFees = self.builder.get_object('SpinButton_fees').get_value_as_int()
         print(numberOfRolls," / ",numberOfFees)
-        cmd = self.commandBegin+"buy_rolls "+self.address+" "+str(numberOfRolls)+" "+str(numberOfFees)+"\""
+        if self.builder.get_object('Radio_Local').get_active() == True:
+            cmd = self.commandBegin+"buy_rolls "+self.address+" "+str(numberOfRolls)+" "+str(numberOfFees)
+        else:
+            cmd = self.commandBegin+"buy_rolls "+self.address+" "+str(numberOfRolls)+" "+str(numberOfFees)+"\""
         final = subprocess.run(cmd,capture_output=True,shell=True)
         print(final)
 
