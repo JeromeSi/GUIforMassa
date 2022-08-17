@@ -12,12 +12,14 @@ You need :
   
   - Library `gi`, `toml` (use of `os`, `subprocess` but installed by default)
     (` sudo apt install python3-gi python3-toml `)
+  
+  - For remote use, install `openssh` and use ID (not password)
 
 - 2 files :
   
-  - `GUIforMassa.py`
+  - [`GUIforMassa.py`](./GUIforMassa.py)
   
-  - `GUIforMassa.glade`
+  - [`GUIforMassa.glade`](./GUIforMassa.glade)
 
 - Execute file `GUIforMassa.py`
 
