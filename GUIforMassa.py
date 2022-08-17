@@ -36,7 +36,7 @@ class App:
 
     def _initUI(self):
         self.builder = Gtk.Builder()
-        self.builder.add_from_file('../glade/try_02.glade')
+        self.builder.add_from_file('./GUIforMassa.glade')
         self.builder.connect_signals(self) # connect the signals added in the glade file
         self.window = self.builder.get_object('window_main')
         self.window.connect('destroy', Gtk.main_quit)
