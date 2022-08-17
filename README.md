@@ -13,7 +13,7 @@ You need :
   - Library `gi`, `toml` (use of `os`, `subprocess` but installed by default)
     (` sudo apt install python3-gi python3-toml `)
   
-  - For remote use, install `openssh` and use ID (not password)
+  - For remote use, install `openssh` and use ID (read [AboutSSH](./AboutSSH.md))
 
 - 2 files :
   
