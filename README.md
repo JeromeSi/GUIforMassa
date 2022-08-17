@@ -2,7 +2,19 @@
 
 First try to make a GUI for a [Massa](massa.net) node in Python.
 
-v0.0.1 work !
+v0.0.1 work :
+
+- verify you have all you need
+
+- install  `git`:`apt install git`if necessary
+
+- `git clone https://github.com/JeromeSi/GUIforMassa.git` 
+
+- `cd GUIforMassa`
+
+- `python3 GUIforMassa.py`
+
+- go to `Parameters`
 
 You need :
 
