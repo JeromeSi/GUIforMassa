@@ -74,11 +74,11 @@ class App:
                     return
                 if requete != {}:
                     self.dicoGetStatus = json.loads(requete.text)
+            self.stakingAddress()
+            self.values()
+            self.builder.get_object('Label_status').set_text('Good news, node is on')
         else:
             self.parametersDictionnary = {}
-        self.stakingAddress()
-        self.values()
-        self.builder.get_object('Label_status').set_text('Good news, node is on')
         return 0
 
     def stakingAddress(self):
