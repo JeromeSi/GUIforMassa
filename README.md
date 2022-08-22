@@ -33,15 +33,21 @@ You need :
   
   - [`GUIforMassa.glade`](./GUIforMassa.glade)
 
-- Execute file `GUIforMassa.py`
+- Execute file `python3 GUIforMassa.py`
 
 Notes :
 
-v0.0.2. :
+v0.0.3 :
 
 - automatically update values of the node
 
+v0.0.2. :
+
 - 
+
+- New interface organization
+
+- test if node is running and connected
 
 v0.0.1. :
 

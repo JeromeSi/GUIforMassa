@@ -43,43 +43,25 @@ class App:
         self.window = self.builder.get_object('window_main')
         self.window.connect('destroy', Gtk.main_quit)
         self.whereIsNode()
-        # ~ self.values()
+        self.values()
         self.window.show_all()
-        return 0
 
     def whereIsNode(self):
-        requete = {}
         if os.path.isfile(os.environ['HOME']+'/.GUIforMassa-ini.toml'):
             self.parametersDictionnary = toml.load(os.environ['HOME']+'/.GUIforMassa-ini.toml')
             for theName in ('Folder','Password','Hostname','User'):
                 self.builder.get_object('Entry_Massa_'+theName).set_text(self.parametersDictionnary['node'+theName])
             if self.parametersDictionnary['host'] == 'Local':
                 self.builder.get_object('Radio_Local').set_active(True)
-                self.commandBegin="cd "+self.parametersDictionnary['nodeFolder']+"massa-client;./massa-client -p "+self.parametersDictionnary['nodePassword']+" "
                 self.urlPublic='http://127.0.0.1:33035'
-                try:
-                    requete = requests.post(self.urlPublic,data='{"jsonrpc": "2.0", "method": "get_status", "id": 124}',headers={"Content-Type": "application/json"})
-                except Exception as e:
-                    return
-                if requete != {}:
-                    self.dicoGetStatus = json.loads(requete.text)
+                self.dicoGetStatus = json.loads(requests.post(self.urlPublic,data='{"jsonrpc": "2.0", "method": "get_status", "id": 124}',headers={"Content-Type": "application/json"}).text)
             else:
                 self.builder.get_object('Radio_Remote').set_active(True)
-                self.commandBegin="ssh "+self.parametersDictionnary['nodeUser']+"@"+self.parametersDictionnary['nodeHostname']+" \"cd "+self.parametersDictionnary['nodeFolder']+"massa-client;./massa-client -p "+self.parametersDictionnary['nodePassword']+" "
                 self.urlPublic = 'http://'+self.parametersDictionnary['nodeHostname']+':33035'
-                try:
-                    requete = requests.post(self.urlPublic,data='{"jsonrpc": "2.0", "method": "get_status", "id": 124}',headers={"Content-Type": "application/json"})
-                except Exception as e:
-                    self.builder.get_object('Label_status').set_text('Node is off or I can\'t join it')
-                    return
-                if requete != {}:
-                    self.dicoGetStatus = json.loads(requete.text)
+                self.dicoGetStatus = json.loads(requests.post(self.urlPublic,data='{"jsonrpc": "2.0", "method": "get_status", "id": 124}',headers={"Content-Type": "application/json"}).text)
         else:
             self.parametersDictionnary = {}
         self.stakingAddress()
-        self.values()
-        self.builder.get_object('Label_status').set_text('Good news, node is on')
-        return 0
 
     def stakingAddress(self):
         if self.builder.get_object('Radio_Local').get_active():
@@ -93,7 +75,6 @@ class App:
             reponse = str(subprocess.run(commande,capture_output=True,shell=True).stdout)[2:-3]
             self.address=json.loads(reponse)['result'][0]
         self.builder.get_object('Label_TheAddress').set_text(self.address)
-        return 0
 
     def values(self):
         if self.parametersDictionnary != {}:
@@ -106,19 +87,16 @@ class App:
             self.rollsValues(info)
             self.cyclesValues(info)
             self.connexionValues(self.dicoGetStatus)
-        return 0
 
     def balanceValues(self,getAddresses):
         self.builder.get_object('Label_Balance_Final_Value').set_text(str(int(float(getAddresses['result'][0]['ledger_info']['final_ledger_info']['balance']))))
         self.builder.get_object('Label_Balance_Candidate_Value').set_text(str(int(float(getAddresses['result'][0]['ledger_info']['candidate_ledger_info']['balance']))))
         self.builder.get_object('Label_Balance_Locked_Value').set_text(str(int(float(getAddresses['result'][0]['ledger_info']['locked_balance']))))
-        return 0
 
     def rollsValues(self,getAddresses):
         self.builder.get_object('Label_Rolls_Active_Value').set_text(str(getAddresses['result'][0]['rolls']['active_rolls']))
         self.builder.get_object('Label_Rolls_Final_Value').set_text(str(getAddresses['result'][0]['rolls']['final_rolls']))
         self.builder.get_object('Label_Rolls_Candidate_Value').set_text(str(getAddresses['result'][0]['rolls']['candidate_rolls']))
-        return 0
 
     def cyclesValues(self,getAddresses):
         inOrder=[getAddresses['result'][0]['production_stats'][0]]
@@ -142,21 +120,9 @@ class App:
             self.builder.get_object('Label_Previous'+str(i)).set_text(str(inOrder[i]['cycle']))
             self.builder.get_object('Label_Produced_Previous'+str(i)+'_value').set_text(str(inOrder[i]['ok_count']))
             self.builder.get_object('Label_Failed_Previous'+str(i)+'_value').set_text(str(inOrder[i]['nok_count']))
-        return 0
 
     def refreshDatas(self,widget):
-        requete = {}
-        try:
-            requete = requests.post(self.urlPublic,data='{"jsonrpc": "2.0", "method": "get_status", "id": 124}',headers={"Content-Type": "application/json"})
-        except Exception as e:
-            self.builder.get_object('Label_status').set_text('Node is off or I can\'t join it')
-            return
-        if requete != {}:
-            self.dicoGetStatus = json.loads(requete.text)
-            self.stakingAddress()
-            self.values()
-            self.builder.get_object('Label_status').set_text('Good news, node is on')
-        return 0
+        self.values()
 
     def sellRolls(self,widget):
         numberOfRolls = self.builder.get_object('SpinButton_NumberofRolls').get_value_as_int()
@@ -166,7 +132,6 @@ class App:
         else:
             cmd = self.commandBegin+"sell_rolls "+self.address+" "+str(numberOfRolls)+" "+str(numberOfFees)+"\""
         final = subprocess.run(cmd,capture_output=True,shell=True)
-        return 0
 
     def buyRolls(self,widget):
         numberOfRolls = self.builder.get_object('SpinButton_NumberofRolls').get_value_as_int()
@@ -176,10 +141,8 @@ class App:
         else:
             cmd = self.commandBegin+"buy_rolls "+self.address+" "+str(numberOfRolls)+" "+str(numberOfFees)+"\""
         final = subprocess.run(cmd,capture_output=True,shell=True)
-        return 0
 
     def saveParameters(self,widget):
-        requete = {}
         parametersDictionnary = {}
         folder = self.builder.get_object('Entry_Massa_Folder').get_text()
         if folder[-1] != "/":
@@ -190,22 +153,19 @@ class App:
             parametersDictionnary['host'] = 'Local'
         else:
             parametersDictionnary['host'] = 'Remote'
-            # ~ self.stakingAddress()
-            # ~ self.builder.get_object('Label_TheAddress').set_text(self.address)
+        self.stakingAddress()
+        self.builder.get_object('Label_TheAddress').set_text(self.address)
         lefichier = open(os.environ['HOME']+'/.GUIforMassa-ini.toml','w')
         datas = toml.dump(parametersDictionnary, lefichier)
         lefichier.close()
         self.whereIsNode()
-        return 0
 
     def connexionValues(self,getStatus):
         self.builder.get_object('Label_Connexions_IN_Value').set_text(str(getStatus['result']['network_stats']['in_connection_count']))
         self.builder.get_object('Label_Connexions_OUT_value').set_text(str(getStatus['result']['network_stats']['out_connection_count']))
-        return 0
 
     def destroyDialogBox_HowMany(self,widget):
         self.builder.get_object('DialogBox_HowMany').destroy()
-        return 0
 
 
 if __name__ == "__main__":
